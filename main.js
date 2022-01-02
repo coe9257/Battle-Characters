@@ -32,6 +32,23 @@ class Fighter {
             console.log(life);
         document.querySelector(`.` + className).textContent = life;
     }
+
+    checkDeath() {
+        let name = this.name;
+        if (this.life < 1) {
+            function nameDeath() {
+                console.log(`name`, name)
+                if (document.querySelector('.player1').textContent == name) {
+                    document.querySelector('.player1').textContent = "DEATH";
+                    document.querySelector('.player1-turn').style.backgroundColor = "red";
+                }else {
+                    document.querySelector('.player2').textContent = "DEATH"
+                    document.querySelector('.player2-turn').style.backgroundColor = "red"
+                }
+            }
+            nameDeath();
+        }
+    }
 };
 
 function create_player(nbr) {
@@ -73,6 +90,8 @@ function pageLoad() {
         console.log(names);
         document.querySelector('.player1').textContent = names[0];
         document.querySelector('.player2').textContent = names[1];
+        player_1.name = names[0];
+        player_2.name = names[1];
     };
         addNames()
     function firstMove() {
@@ -111,6 +130,7 @@ document.querySelector('.player1-turn').addEventListener("click", function() {
         player_2.defend(attack);
         player_2.updateLife(`player2-score`);
 
+
         function changeTurn() {
             document.querySelector('.player1-turn').style.backgroundColor = "red";
             document.querySelector('.player1-turn').textContent = "STOP";
@@ -119,6 +139,8 @@ document.querySelector('.player1-turn').addEventListener("click", function() {
             document.querySelector('.player2-turn').textContent = "GO";
         }
         changeTurn();
+
+        player_2.checkDeath();
 
     }
 });
@@ -139,6 +161,8 @@ document.querySelector('.player2-turn').addEventListener("click", function() {
         document.querySelector('.player1-turn').textContent = "GO";
     }
     changeTurn();
+
+    player_1.checkDeath();
 });
 
 
