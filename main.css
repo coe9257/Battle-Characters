@@ -82,10 +82,12 @@ header {
 
 .player1 {
     grid-area: player1;
+    text-align: center;
 }
 
 .player2 {
     grid-area: player2;
+    text-align: center;
 }
 
 .player1-turn,

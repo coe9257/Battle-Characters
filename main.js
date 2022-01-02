@@ -106,17 +106,16 @@ class Player {
                 if (name1.includes(`-1-`)) {
                     document.querySelector(`.player1`).textContent = "DEAD";
                     document.querySelector(`.player1-turn`).style.backgroundColor = "red";
+                    function startOver() {
+                        // document.querySelector('.space-bottom').style.backgroundColor = "green";
+                        // document.querySelector('.space-bottom').style.color = "blue";
+                        // document.querySelector('.space-bottom').textContent = "Play Again?";
+                    }
+                    startOver();
                 }else {
                     document.querySelector(`.player2`).textContent = "DEAD";
                     document.querySelector(`.player2-turn`).style.backgroundColor = "red";
                 }
-
-                function startOver() {
-                    // document.querySelector('.space-bottom').style.backgroundColor = "green";
-                    // document.querySelector('.space-bottom').style.color = "blue";
-                    // document.querySelector('.space-bottom').textContent = "Play Again?";
-                }
-                startOver();
             }
         }
         lifeCheck()
@@ -125,11 +124,12 @@ class Player {
 
 function createPlayer(nbr) {
     let a = randomNumbers(1, 99);
-    let b = randomNumbers(1, 99);
-    let c = randomNumbers(1, 99);
-    let d = randomNumbers(1, 99);
-    let e = randomNumbers(1, 99);
-    let name = `Player-${nbr}-`+ a + b + c + d + e;
+    // let b = randomNumbers(1, 99);
+    // let c = randomNumbers(1, 99);
+    // let d = randomNumbers(1, 99);
+    // let e = randomNumbers(1, 99);
+    let name = `Player-${nbr}-`+ a;
+    console.log(name);
     return name;
 };
 
@@ -147,6 +147,12 @@ function loadLife() {
     document.querySelector('.player2-score').textContent = player2.life;
 }
 loadLife();
+
+function loadCharacterName() {
+    document.querySelector('.player1').textContent = player1.name
+    document.querySelector('.player2').textContent = player2.name;
+}
+loadCharacterName();
 
 document.querySelector(".player1-turn").addEventListener("click", function() {
     if (document.querySelector(".player1-turn").style.backgroundColor == "green") {
