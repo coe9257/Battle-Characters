@@ -21,11 +21,13 @@ function initialPlayerMoveLoad() {
 }
 initialPlayerMoveLoad();
 
-function startOver() {
-    // document.querySelector('.space-bottom').style.backgroundColor = "green";
-    // document.querySelector('.space-bottom').style.color = "blue";
-    // document.querySelector('.space-bottom').textContent = "Play Again?";
+function randomNumbers(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
+randomNumbers();      
+
 
 function dodged(strength, dodge) {
     let mathRdm = Math.floor(Math.random() * 101);
@@ -62,7 +64,7 @@ class Player {
         let dChance = dodged(strength, this.agility)
 
         let player = this.name
-        let playerHTMLScore = '.' + this.name + `-score`;
+        // let playerHTMLScore = '.' + this.name + `-score`;
         let playerTurn = '.' + player + '-turn';
         let armor = this.armor;
 
@@ -86,9 +88,14 @@ class Player {
         }
 
         let currentLife = this.life;
+        let name1 = this.name
 
         function updateLife() {
-            document.querySelector(playerHTMLScore).textContent = `${Math.trunc(currentLife)}`;
+            if (name1.includes(`-1-`)) {
+                document.querySelector(`.player1-score`).textContent = `${Math.trunc(currentLife)}`;
+            }else {
+                document.querySelector(`.player2-score`).textContent = `${Math.trunc(currentLife)}`;
+            }
         }
         updateLife();
 
@@ -96,10 +103,19 @@ class Player {
 
         function lifeCheck() {
             if (currentLife < 1) {
-                document.querySelector(`.` + player).textContent = "DEAD";
-                    console.log(playerTurn);
-                document.querySelector(`.` + player + '-turn').style.backgroundColor = "red";
-                document.querySelector(`.` + player + '-score').textContent = 0;
+                if (name1.includes(`-1-`)) {
+                    document.querySelector(`.player1`).textContent = "DEAD";
+                    document.querySelector(`.player1-turn`).style.backgroundColor = "red";
+                }else {
+                    document.querySelector(`.player2`).textContent = "DEAD";
+                    document.querySelector(`.player2-turn`).style.backgroundColor = "red";
+                }
+
+                function startOver() {
+                    // document.querySelector('.space-bottom').style.backgroundColor = "green";
+                    // document.querySelector('.space-bottom').style.color = "blue";
+                    // document.querySelector('.space-bottom').textContent = "Play Again?";
+                }
                 startOver();
             }
         }
@@ -107,8 +123,24 @@ class Player {
     }
 }
 
-let player1 = new Player("player1", 55, 75, 18, 95);
-let player2 = new Player("player2", 70, 65, 26, 5);
+function createPlayer(nbr) {
+    let a = randomNumbers(1, 99);
+    let b = randomNumbers(1, 99);
+    let c = randomNumbers(1, 99);
+    let d = randomNumbers(1, 99);
+    let e = randomNumbers(1, 99);
+    let name = `Player-${nbr}-`+ a + b + c + d + e;
+    return name;
+};
+
+let playerName1 = createPlayer(`1`);
+let playerName2 = createPlayer(`2`);
+
+console.log(`playerName1:`, playerName1, randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99) );
+console.log(`playerName2:`, playerName2, randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99) );
+
+let player1 = new Player(playerName1, randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99) );
+let player2 = new Player(playerName2, randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99), randomNumbers(1, 99) );
 
 function loadLife() {
     document.querySelector('.player1-score').textContent = player1.life;
