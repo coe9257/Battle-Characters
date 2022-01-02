@@ -59,7 +59,7 @@ function pageLoad() {
 }
 pageLoad();
 
-class Fighters {
+class Fighter {
     constructor(name, life, strength, armor, dexterity) {
         this.name = name;
         this.life = life;
@@ -69,11 +69,18 @@ class Fighters {
     };
 };
 
-function create_player_1() {
+function create_player(nbr) {
+    let name = document.querySelector('.' + `player` + nbr).textContent;
+    let player = new Fighter(name, RdmBtwTwoNbrs(0, 100), RdmBtwTwoNbrs(0, 80), RdmBtwTwoNbrs(0, 50), RdmBtwTwoNbrs(0, 60));
     
-}
+    return player;
+};
 
-let player = create_player_1();
+let player_1 = create_player(1);
+let player_2 = create_player(2);
+
+console.log(player_1);
+
 
 
 
