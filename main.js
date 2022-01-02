@@ -53,7 +53,12 @@ class Fighter {
                 }
             }
             nameDeath();
-        }
+            function newGameText() {
+                document.querySelector('.space-bottom').style.backgroundColor = "white";
+                document.querySelector('.space-bottom').textContent = "New Game";
+            };
+            newGameText()
+        };
     }
 };
 
@@ -171,6 +176,47 @@ document.querySelector('.player2-turn').addEventListener("click", function() {
 
     player_1.checkDeath();
 });
+
+document.querySelector('.space-bottom').addEventListener("click", function() {
+    function newCharacters() {
+        player_1 = create_player(1);
+        player_2 = create_player(2);
+
+        function player_name_creation() {
+
+            let names = ["Bob", "Joe", "Allen", "Karen", "Faith", "Kathy"];
+    
+            let player_1_index = RdmBtwTwoNbrs(0, 6);
+    
+            let newArray2 = names;
+    
+            let name1_taken = newArray2.splice(player_1_index, 1);
+                console.log(name1_taken);
+    
+            let newArray3 = newArray2;
+    
+            let player_2_index = RdmBtwTwoNbrs(0, 5);
+    
+            let name2_taken = newArray3.splice(player_2_index, 1);
+                console.log(name2_taken);
+    
+            let twoNamesArray = [name1_taken[0], name2_taken[0]];
+                
+            return twoNamesArray;
+        };
+        let names = player_name_creation();
+
+        pageLoad();
+
+        function resetPlayAgain() {
+            document.querySelector('.space-bottom').style.backgroundColor = "rgb(83, 81, 81)";
+            document.querySelector('.space-bottom').textContent = "";
+        }
+        resetPlayAgain()
+
+    }
+    newCharacters()
+})
 
 
 

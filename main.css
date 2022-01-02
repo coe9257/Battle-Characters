@@ -113,6 +113,7 @@ header {
 .space-bottom {
     grid-area: space-bottom;
     background-color: rgb(83, 81, 81);
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
