@@ -10,6 +10,28 @@ class Fighter {
         this.armor = armor;
         this.dexterity = dexterity
     };
+
+    attack() {
+
+    }
+
+    defend(attack) {
+        //damage after armor reduction
+            console.log("armor: ", this.armor);
+        let attack_damage_reduced = ((this.armor / 100) * attack);
+            console.log('armor reduced damage: ', attack_damage_reduced);
+        //life reduced
+            console.log('life before: ', this.life);
+        this.life -= attack_damage_reduced;
+            console.log('life after: ', this.life);
+    }
+
+    updateLife(className) {
+        console.log(className);
+        let life = Math.trunc(this.life);
+            console.log(life);
+        document.querySelector(`.` + className).textContent = life;
+    }
 };
 
 function create_player(nbr) {
@@ -82,18 +104,41 @@ function pageLoad() {
 }
 pageLoad();
 
-
-
 document.querySelector('.player1-turn').addEventListener("click", function() {
     if (document.querySelector('.player1-turn').style.backgroundColor == "green") {
-        console.log(true);
+        let attack = player_1.strength;
+        console.log(`attack: `, attack);
+        player_2.defend(attack);
+        player_2.updateLife(`player2-score`);
+
+        function changeTurn() {
+            document.querySelector('.player1-turn').style.backgroundColor = "red";
+            document.querySelector('.player1-turn').textContent = "STOP";
+
+            document.querySelector('.player2-turn').style.backgroundColor = "green";
+            document.querySelector('.player2-turn').textContent = "GO";
+        }
+        changeTurn();
+
     }
 });
 
 document.querySelector('.player2-turn').addEventListener("click", function() {
     if (document.querySelector('.player2-turn').style.backgroundColor == "green") {
-        console.log(true);
+        let attack = player_2.strength;
+        console.log(`attack: `, attack);
+        player_1.defend(attack);
+        player_1.updateLife(`player1-score`);
     }
+
+    function changeTurn() {
+        document.querySelector('.player2-turn').style.backgroundColor = "red";
+        document.querySelector('.player2-turn').textContent = "STOP";
+
+        document.querySelector('.player1-turn').style.backgroundColor = "green";
+        document.querySelector('.player1-turn').textContent = "GO";
+    }
+    changeTurn();
 });
 
 
