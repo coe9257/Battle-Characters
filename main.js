@@ -24,6 +24,10 @@ class Fighter {
             console.log('life before: ', this.life);
         this.life -= attack_damage_reduced;
             console.log('life after: ', this.life);
+        //UI interface of damage taken
+        function playerDamageNotification() {
+            document.querySelector('.middle-space').textContent = `${this.name} takes ${attack_damage_reduced} damage!`;                                                     
+        }
     }
 
     updateLife(className) {
@@ -41,7 +45,7 @@ class Fighter {
                 if (document.querySelector('.player1').textContent == name) {
                     document.querySelector('.player1').textContent = "DEATH";
                     document.querySelector('.player1-turn').style.backgroundColor = "red";
-                }else {
+                }else if (document.querySelector('.player2').textContent == name){
                     document.querySelector('.player2').textContent = "DEATH"
                     document.querySelector('.player2-turn').style.backgroundColor = "red"
                 }
@@ -151,16 +155,17 @@ document.querySelector('.player2-turn').addEventListener("click", function() {
         console.log(`attack: `, attack);
         player_1.defend(attack);
         player_1.updateLife(`player1-score`);
-    }
 
-    function changeTurn() {
-        document.querySelector('.player2-turn').style.backgroundColor = "red";
-        document.querySelector('.player2-turn').textContent = "STOP";
+        function changeTurn() {
+            document.querySelector('.player2-turn').style.backgroundColor = "red";
+            document.querySelector('.player2-turn').textContent = "STOP";
+    
+            document.querySelector('.player1-turn').style.backgroundColor = "green";
+            document.querySelector('.player1-turn').textContent = "GO";
+        }
+        changeTurn();
 
-        document.querySelector('.player1-turn').style.backgroundColor = "green";
-        document.querySelector('.player1-turn').textContent = "GO";
     }
-    changeTurn();
 
     player_1.checkDeath();
 });

@@ -17,7 +17,7 @@ body, html {
     grid-template-areas:
     "header header header"
     "player1-score score-title player2-score"
-    "player1 space-middle player2"
+    "player1 middle-space player2"
     "player1-turn space-bottom player2-turn"
     "footer footer footer";
     grid-template-columns: 1fr 1fr 1fr;
@@ -88,6 +88,10 @@ header {
 .player2 {
     grid-area: player2;
     text-align: center;
+}
+
+.middle-space {
+    grid-area: middle-space;
 }
 
 .player1-turn,
