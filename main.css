@@ -92,6 +92,10 @@ header {
 
 .middle-space {
     grid-area: middle-space;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .player1-turn,

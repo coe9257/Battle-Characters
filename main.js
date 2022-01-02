@@ -11,23 +11,21 @@ class Fighter {
         this.dexterity = dexterity
     };
 
-    attack() {
-
-    }
-
     defend(attack) {
+        console.log(`this: `, this)
         //damage after armor reduction
             console.log("armor: ", this.armor);
-        let attack_damage_reduced = ((this.armor / 100) * attack);
+        let attack_damage_reduced = Math.trunc(((this.armor / 100) * attack));
             console.log('armor reduced damage: ', attack_damage_reduced);
         //life reduced
             console.log('life before: ', this.life);
         this.life -= attack_damage_reduced;
             console.log('life after: ', this.life);
         //UI interface of damage taken
-        function playerDamageNotification() {
-            document.querySelector('.middle-space').textContent = `${this.name} takes ${attack_damage_reduced} damage!`;                                                     
+        function playerDamageNotification(name) {
+            document.querySelector('.middle-space').textContent = `${name} takes ${attack_damage_reduced} damage!`;                                                     
         }
+            playerDamageNotification(this.name);
     }
 
     updateLife(className) {
@@ -45,9 +43,13 @@ class Fighter {
                 if (document.querySelector('.player1').textContent == name) {
                     document.querySelector('.player1').textContent = "DEATH";
                     document.querySelector('.player1-turn').style.backgroundColor = "red";
+                    document.querySelector('.player1-turn').textContent = "STOP";
+                    document.querySelector('.middle-space').textContent = `${name} is DEAD`;
                 }else if (document.querySelector('.player2').textContent == name){
                     document.querySelector('.player2').textContent = "DEATH"
                     document.querySelector('.player2-turn').style.backgroundColor = "red"
+                    document.querySelector('.player2-turn').textContent = "STOP";
+                    document.querySelector('.middle-space').textContent = `${name} is DEAD`;
                 }
             }
             nameDeath();
