@@ -1,0 +1,115 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+#grid-container {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-areas:
+    "header header header"
+    "player1-score score-title player2-score"
+    "player1 space-middle player2"
+    "player1-turn space-bottom player2-turn"
+    "footer footer footer";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 5rem 
+                        2.5rem
+                        1fr
+                        2.5rem
+                        3rem
+}
+
+header {
+    grid-area: header;
+    height: 5rem;
+    color: whitesmoke;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player1-score {
+    grid-area: player1-score;
+    background-color: white;
+    color: black;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-top: 1px solid white;
+}
+
+.score-title {
+    grid-area: score-title;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(248, 248, 248);
+}
+
+.player2-score {
+    grid-area: player2-score;
+    background-color: white;
+    color: black;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-top: 1px solid white;
+}
+
+.player1,
+.player2 {
+    background-color: rgb(22, 19, 19);
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player1 {
+    grid-area: player1;
+}
+
+.player2 {
+    grid-area: player2;
+}
+
+.player1-turn,
+.player2-turn {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player1-turn {
+    grid-area: player1-turn;
+}
+
+.space-bottom {
+    grid-area: space-bottom;
+    background-color: rgb(83, 81, 81);
+}
+
+.player2-turn {
+    grid-area: player2-turn;
+}
+
+footer {
+    grid-area: footer;
+    height: 3rem;
+}
