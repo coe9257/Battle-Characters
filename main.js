@@ -2,6 +2,10 @@ function RdmBtwTwoNbrs(min, max) {
     return Math.trunc(Math.random() * (max - min) + min);
 }
 
+function CritialStrikeChance(attack, dexterity) {
+
+}
+
 class Fighter {
     constructor(name, life, strength, armor, dexterity) {
         this.name = name;
@@ -211,6 +215,7 @@ document.querySelector('.space-bottom').addEventListener("click", function() {
         function resetPlayAgain() {
             document.querySelector('.space-bottom').style.backgroundColor = "rgb(83, 81, 81)";
             document.querySelector('.space-bottom').textContent = "";
+            document.querySelector('.middle-space').textContent = "";
         }
         resetPlayAgain()
 
