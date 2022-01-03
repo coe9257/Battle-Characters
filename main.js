@@ -2,7 +2,21 @@ function RdmBtwTwoNbrs(min, max) {
     return Math.trunc(Math.random() * (max - min) + min);
 }
 
-function CritialStrikeChance(attack, dexterity) {
+function critial_strike_chance(attacker_strength, attacker_dexterity) {
+        // console.log(attacker_dexterity);
+        //Make the number into thousands
+    let critical_strike_number = Math.trunc((attacker_dexterity * 10));
+        // console.log(`attacker_dexterity: `, attacker_dexterity, `critical_strike_number: `, critical_strike_number);
+        // console.log(critical_strike_chance);
+    let number_between_1000 = RdmBtwTwoNbrs(1, 1000);
+
+    // console.log(`critical_strike_chance: `, critical_strike_number, `MathRdmNbr: `, number_between_1000);
+
+    if (number_between_1000 <= critical_strike_number) {
+        return true;
+    }else {
+        return false;
+    }
 
 }
 
@@ -15,19 +29,26 @@ class Fighter {
         this.dexterity = dexterity
     };
 
-    defend(attack) {
-        console.log(`this: `, this)
-        //damage after armor reduction
-            console.log("armor: ", this.armor);
+    defend(attack, dexterity) {
+
+        let did_critical_strike_hit = critial_strike_chance(attack, dexterity);
         let attack_damage_reduced = Math.trunc(((this.armor / 100) * attack));
-            console.log('armor reduced damage: ', attack_damage_reduced);
+            if (did_critical_strike_hit == true) {
+                console.log(`attack damage reduced before: `,attack_damage_reduced);
+                    attack_damage_reduced += 10;
+                    attack_damage_reduced *= 2;
+                console.log(`attack damage reduced after: `,attack_damage_reduced);
+            }
         //life reduced
-            console.log('life before: ', this.life);
         this.life -= attack_damage_reduced;
-            console.log('life after: ', this.life);
         //UI interface of damage taken
         function playerDamageNotification(name) {
-            document.querySelector('.middle-space').textContent = `${name} takes ${attack_damage_reduced} damage!`;                                                     
+            let crit = "";
+            if (did_critical_strike_hit == true) {
+                crit = "Critical Strike!";
+            }
+            document.querySelector('.middle-space').textContent = `${crit} ${name} takes ${attack_damage_reduced} damage!`;
+            crit = "";                                                   
         }
             playerDamageNotification(this.name);
     }
@@ -45,15 +66,17 @@ class Fighter {
             function nameDeath() {
                 console.log(`name`, name)
                 if (document.querySelector('.player1').textContent == name) {
+                        let previousText = document.querySelector('.middle-space').textContent;
                     document.querySelector('.player1').textContent = "DEATH";
                     document.querySelector('.player1-turn').style.backgroundColor = "red";
                     document.querySelector('.player1-turn').textContent = "STOP";
-                    document.querySelector('.middle-space').textContent = `${name} is DEAD`;
+                    document.querySelector('.middle-space').textContent = `${previousText} ${name} is DEAD`;
                 }else if (document.querySelector('.player2').textContent == name){
-                    document.querySelector('.player2').textContent = "DEATH"
+                        let previousText = document.querySelector('.middle-space').textContent;;
+                    document.querySelector('.player2').textContent = "DEATH";
                     document.querySelector('.player2-turn').style.backgroundColor = "red"
                     document.querySelector('.player2-turn').textContent = "STOP";
-                    document.querySelector('.middle-space').textContent = `${name} is DEAD`;
+                    document.querySelector('.middle-space').textContent = `${previousText} ${name} is DEAD`;
                 }
             }
             nameDeath();
@@ -141,8 +164,9 @@ pageLoad();
 document.querySelector('.player1-turn').addEventListener("click", function() {
     if (document.querySelector('.player1-turn').style.backgroundColor == "green") {
         let attack = player_1.strength;
+        let attacker_dexterity = player_1.dexterity
         console.log(`attack: `, attack);
-        player_2.defend(attack);
+        player_2.defend(attack, attacker_dexterity);
         player_2.updateLife(`player2-score`);
 
 
@@ -163,8 +187,9 @@ document.querySelector('.player1-turn').addEventListener("click", function() {
 document.querySelector('.player2-turn').addEventListener("click", function() {
     if (document.querySelector('.player2-turn').style.backgroundColor == "green") {
         let attack = player_2.strength;
+        let attacker_dexterity = player_2.dexterity
         console.log(`attack: `, attack);
-        player_1.defend(attack);
+        player_1.defend(attack, attacker_dexterity);
         player_1.updateLife(`player1-score`);
 
         function changeTurn() {
