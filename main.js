@@ -20,6 +20,18 @@ function critial_strike_chance(attacker_strength, attacker_dexterity) {
 
 }
 
+function dodge_attack(defender_dexterity, attacker_dexterity) {
+    let defender_dexterity_comparison = defender_dexterity - attacker_dexterity;
+
+    let roll = RdmBtwTwoNbrs(1, 100);
+
+    if (defender_dexterity_comparison > roll) {
+         return true
+    }else {
+        return false;
+    }
+}
+
 class Fighter {
     constructor(name, life, strength, armor, dexterity) {
         this.name = name;
@@ -32,31 +44,43 @@ class Fighter {
     defend(attack, dexterity) {
 
         let did_critical_strike_hit = critial_strike_chance(attack, dexterity);
+        let did_defender_dodge_attack = dodge_attack(this.dexterity, dexterity);
         let attack_damage_reduced = Math.trunc(((this.armor / 100) * attack));
             if (did_critical_strike_hit == true) {
-                console.log(`attack damage reduced before: `,attack_damage_reduced);
+                // console.log(`attack damage reduced before: `,attack_damage_reduced);
                     attack_damage_reduced += 10;
                     attack_damage_reduced *= 2;
-                console.log(`attack damage reduced after: `,attack_damage_reduced);
+                // console.log(`attack damage reduced after: `,attack_damage_reduced);
             }
         //life reduced
-        this.life -= attack_damage_reduced;
+        if (did_defender_dodge_attack == false) {
+            this.life -= attack_damage_reduced;
+        }
         //UI interface of damage taken
         function playerDamageNotification(name) {
+
             let crit = "";
-            if (did_critical_strike_hit == true) {
+
+            if (did_critical_strike_hit == true && did_defender_dodge_attack == false) {
                 crit = "Critical Strike!";
             }
-            document.querySelector('.middle-space').textContent = `${crit} ${name} takes ${attack_damage_reduced} damage!`;
-            crit = "";                                                   
+
+            if (did_defender_dodge_attack == false) {
+                document.querySelector('.middle-space').textContent = `${crit} ${name} takes ${attack_damage_reduced} damage!`;
+                crit = "";  
+            }
+            
+            if (did_defender_dodge_attack == true) {
+                document.querySelector('.middle-space').textContent = `${name} has dodged the Attack!`;
+            }
         }
             playerDamageNotification(this.name);
     }
 
     updateLife(className) {
-        console.log(className);
+        // console.log(className);
         let life = Math.trunc(this.life);
-            console.log(life);
+            // console.log(life);
         document.querySelector(`.` + className).textContent = life;
     }
 
@@ -111,21 +135,21 @@ function pageLoad() {
             let newArray2 = names;
     
             let name1_taken = newArray2.splice(player_1_index, 1);
-                console.log(name1_taken);
+                // console.log(name1_taken);
     
             let newArray3 = newArray2;
     
             let player_2_index = RdmBtwTwoNbrs(0, 5);
     
             let name2_taken = newArray3.splice(player_2_index, 1);
-                console.log(name2_taken);
+                // console.log(name2_taken);
     
             let twoNamesArray = [name1_taken[0], name2_taken[0]];
                 
             return twoNamesArray;
         };
         let names = player1_name_creation();
-        console.log(names);
+        // console.log(names);
         document.querySelector('.player1').textContent = names[0];
         document.querySelector('.player2').textContent = names[1];
         player_1.name = names[0];
@@ -136,14 +160,14 @@ function pageLoad() {
         (function () {
             let turn = RdmBtwTwoNbrs(0, 1000);
             if (turn % 2 == 0) {
-                    console.log(true)
+                    // console.log(true);
                 document.querySelector('.player1-turn').textContent = "GO!";
                 document.querySelector('.player1-turn').style.backgroundColor = "green";
 
                 document.querySelector('.player2-turn').textContent = "STOP";
                 document.querySelector('.player2-turn').style.backgroundColor = "red";
             }else {
-                    console.log(false);
+                    // console.log(false);
                 document.querySelector('.player2-turn').textContent = "GO!";
                 document.querySelector('.player2-turn').style.backgroundColor = "green";
 
@@ -165,7 +189,7 @@ document.querySelector('.player1-turn').addEventListener("click", function() {
     if (document.querySelector('.player1-turn').style.backgroundColor == "green") {
         let attack = player_1.strength;
         let attacker_dexterity = player_1.dexterity
-        console.log(`attack: `, attack);
+        // console.log(`attack: `, attack);
         player_2.defend(attack, attacker_dexterity);
         player_2.updateLife(`player2-score`);
 
@@ -188,7 +212,7 @@ document.querySelector('.player2-turn').addEventListener("click", function() {
     if (document.querySelector('.player2-turn').style.backgroundColor == "green") {
         let attack = player_2.strength;
         let attacker_dexterity = player_2.dexterity
-        console.log(`attack: `, attack);
+        // console.log(`attack: `, attack);
         player_1.defend(attack, attacker_dexterity);
         player_1.updateLife(`player1-score`);
 
@@ -220,14 +244,14 @@ document.querySelector('.space-bottom').addEventListener("click", function() {
             let newArray2 = names;
     
             let name1_taken = newArray2.splice(player_1_index, 1);
-                console.log(name1_taken);
+                // console.log(name1_taken);
     
             let newArray3 = newArray2;
     
             let player_2_index = RdmBtwTwoNbrs(0, 5);
     
             let name2_taken = newArray3.splice(player_2_index, 1);
-                console.log(name2_taken);
+                // console.log(name2_taken);
     
             let twoNamesArray = [name1_taken[0], name2_taken[0]];
                 
