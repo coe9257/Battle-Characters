@@ -1,3 +1,6 @@
+//modified critical strike damage;  fixed start new game function so you cannot start it over until game is over;
+
+
 function RdmBtwTwoNbrs(min, max) {
     return Math.trunc(Math.random() * (max - min) + min);
 }
@@ -49,7 +52,7 @@ class Fighter {
             if (did_critical_strike_hit == true) {
                 // console.log(`attack damage reduced before: `,attack_damage_reduced);
                     attack_damage_reduced += 10;
-                    attack_damage_reduced *= 2;
+                    attack_damage_reduced *= 1.5;
                 // console.log(`attack damage reduced after: `,attack_damage_reduced);
             }
         //life reduced
@@ -269,7 +272,10 @@ document.querySelector('.space-bottom').addEventListener("click", function() {
         resetPlayAgain()
 
     }
-    newCharacters()
+    if (document.querySelector('.space-bottom').style.backgroundColor == "white") {
+        console.log(true);
+        newCharacters();
+    }
 })
 
 
