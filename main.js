@@ -1,4 +1,6 @@
-//modified critical strike damage;  fixed start new game function so you cannot start it over until game is over;
+//modified critical strike damage;  
+//fixed start new game function so you cannot start it over until game is over;
+//Fixed reload new game by removing all element nods before reload
 
 
 function RdmBtwTwoNbrs(min, max) {
@@ -87,33 +89,42 @@ class Fighter {
         document.querySelector(`.` + className).textContent = life;
     }
 
-    checkDeath() {
+    checkDeath(player) {
+        console.log(player)
         let name = this.name;
+
         if (this.life < 1) {
             function nameDeath() {
-                console.log(`name`, name)
-                if (document.querySelector('.player1').textContent == name) {
+                    console.log(`name`, name);
+                    console.log(document.querySelector('.player1_p_tag').textContent);
+                    console.log(document.querySelector('.player2_p_tag').textContent);
+                if (document.querySelector('.player1_p_tag').textContent == player.name) {
+                        console.log('firing if');
                         let previousText = document.querySelector('.middle-space').textContent;
                     document.querySelector('.player1').textContent = "DEATH";
                     document.querySelector('.player1-turn').style.backgroundColor = "red";
                     document.querySelector('.player1-turn').textContent = "STOP";
-                    document.querySelector('.middle-space').textContent = `${previousText} ${name} is DEAD`;
-                }else if (document.querySelector('.player2').textContent == name){
-                        let previousText = document.querySelector('.middle-space').textContent;;
+                        console.log(`previousText: `, previousText, `name: `, name);
+                    document.querySelector('.middle-space').textContent = `${previousText} ${name} is DEAD!`;
+                }else if (document.querySelector('.player2_p_tag').textContent == player.name){
+                        console.log('firing else if');
+                        let previousText = document.querySelector('.middle-space').textContent;
                     document.querySelector('.player2').textContent = "DEATH";
                     document.querySelector('.player2-turn').style.backgroundColor = "red"
                     document.querySelector('.player2-turn').textContent = "STOP";
-                    document.querySelector('.middle-space').textContent = `${previousText} ${name} is DEAD`;
-                }
-            }
+                        console.log(`previousText: `, previousText, `name: `, name);
+                    document.querySelector('.middle-space').textContent = `${previousText} ${name} is DEAD!`;
+                };
+            };
             nameDeath();
+
             function newGameText() {
                 document.querySelector('.space-bottom').style.backgroundColor = "white";
                 document.querySelector('.space-bottom').textContent = "New Game";
             };
             newGameText()
         };
-    }
+    };
 };
 
 function create_player(nbr) {
@@ -153,12 +164,31 @@ function pageLoad() {
         };
         let names = player1_name_creation();
         // console.log(names);
-        document.querySelector('.player1').textContent = names[0];
-        document.querySelector('.player2').textContent = names[1];
         player_1.name = names[0];
         player_2.name = names[1];
+        function add_p_element_to_players() {
+            let player_1_p_name = document.createElement('p');
+                player_1_p_name.style.fontSize = `1.75rem`;
+                player_1_p_name.textContent = names[0];
+                player_1_p_name.className = "player1_p_tag";
+                document.querySelector('.player1').appendChild(player_1_p_name);
+            
+            let player_2_p_name = document.createElement('p');
+                player_2_p_name.style.fontSize = `1.75rem`;
+                player_2_p_name.textContent = names[1];
+                player_2_p_name.className = "player2_p_tag";
+                document.querySelector('.player2').appendChild(player_2_p_name);
+        };
+        add_p_element_to_players();
     };
-        addNames()
+    addNames()
+    
+    function loadLife() {
+        document.querySelector('.player1-score').textContent = player_1.life;
+        document.querySelector('.player2-score').textContent = player_2.life;
+    }
+    loadLife();
+
     function firstMove() {
         (function () {
             let turn = RdmBtwTwoNbrs(0, 1000);
@@ -179,12 +209,85 @@ function pageLoad() {
             }
         })();
     };
-        firstMove();
-    function loadLife() {
-        document.querySelector('.player1-score').textContent = player_1.life;
-        document.querySelector('.player2-score').textContent = player_2.life;
+    firstMove();
+
+    function addPlayerAttributesToScreen(p1, p2){
+        // this.name = name;
+        // this.life = life;
+        // this.strength = strength;
+        // this.armor = armor;
+        // this.dexterity = dexterity;
+        function playerOneAttributes() {
+            let p1_life = p1.strength;
+            let p1_strength = p1.strength;
+            let p1_armor = p1.armor;
+            let p1_dexterity = p1.dexterity;
+
+            let p1_p_attributes_container = document.createElement('div');
+                p1_p_attributes_container.setAttribute('style', 'display: flex; flex-direction: column; justify-content: space-around; align-items: flex-start')
+                p1_p_attributes_container.className = 'Stats-Container';
+
+                let p1_life_p = document.createElement('p');
+                    p1_life_p.className = "pStatTags";
+                    p1_life_p.textContent = `Life: ${p1_life}`;
+
+                let p1_strength_p = document.createElement('p');
+                    p1_strength_p.className = "pStatTags";
+                    p1_strength_p.textContent = `Strength: ${p1_strength}`;
+
+                let p1_armor_p = document.createElement('p');
+                    p1_armor_p.className = "pStatTags";
+                    p1_armor_p.textContent = `Armor: ${p1_armor}`;
+
+                let p1_dexterity_p = document.createElement('p');
+                    p1_dexterity_p.className = "pStatTags";
+                    p1_dexterity_p.textContent = `Dexterity: ${p1_dexterity}`;
+
+                p1_p_attributes_container.appendChild(p1_life_p);
+                p1_p_attributes_container.appendChild(p1_strength_p);
+                p1_p_attributes_container.appendChild(p1_armor_p);
+                p1_p_attributes_container.appendChild(p1_dexterity_p);                
+                    
+            document.querySelector('.player1').appendChild(p1_p_attributes_container);
+        }
+        playerOneAttributes();
+
+        function playerTwoAttributes() {
+            let p2_life = p2.strength;
+            let p2_strength = p2.strength;
+            let p2_armor = p2.armor;
+            let p2_dexterity = p2.dexterity;
+
+            let p2_p_attributes_container = document.createElement('div');
+                p2_p_attributes_container.setAttribute('style', 'display: flex; flex-direction: column; justify-content: space-around; align-items: flex-start')
+                p2_p_attributes_container.className = 'Stats-Container';
+
+                let p2_life_p = document.createElement('p');
+                    p2_life_p.className = "pStatTags";
+                    p2_life_p.textContent = `Life: ${p2_life}`;
+
+                let p2_strength_p = document.createElement('p');
+                    p2_strength_p.className = "pStatTags";
+                    p2_strength_p.textContent = `Strength: ${p2_strength}`;
+
+                let p2_armor_p = document.createElement('p');
+                    p2_armor_p.className = "pStatTags";
+                    p2_armor_p.textContent = `Armor: ${p2_armor}`;
+
+                let p2_dexterity_p = document.createElement('p');
+                    p2_dexterity_p.className = "pStatTags";
+                    p2_dexterity_p.textContent = `Dexterity: ${p2_dexterity}`;
+
+                p2_p_attributes_container.appendChild(p2_life_p);
+                p2_p_attributes_container.appendChild(p2_strength_p);
+                p2_p_attributes_container.appendChild(p2_armor_p);
+                p2_p_attributes_container.appendChild(p2_dexterity_p);                
+                    
+            document.querySelector('.player2').appendChild(p2_p_attributes_container);
+        }
+        playerTwoAttributes()
     }
-        loadLife();
+    addPlayerAttributesToScreen(player_1, player_2)
 }
 pageLoad();
 
@@ -206,7 +309,7 @@ document.querySelector('.player1-turn').addEventListener("click", function() {
         }
         changeTurn();
 
-        player_2.checkDeath();
+        player_2.checkDeath(player_2);
 
     }
 });
@@ -230,11 +333,27 @@ document.querySelector('.player2-turn').addEventListener("click", function() {
 
     }
 
-    player_1.checkDeath();
+    player_1.checkDeath(player_1);
 });
 
 document.querySelector('.space-bottom').addEventListener("click", function() {
     function newCharacters() {
+
+        function removePlayer1Nodes(parent) {
+            while (document.querySelector('.player1').firstChild) {
+                document.querySelector('.player1').removeChild(document.querySelector('.player1').firstChild);
+            }
+        };
+
+        function removePlayer2Nodes(parent) {
+            while (document.querySelector('.player2').firstChild) {
+                document.querySelector('.player2').removeChild(document.querySelector('.player2').firstChild);
+            }
+        };
+
+        removePlayer1Nodes();
+        removePlayer2Nodes();
+
         player_1 = create_player(1);
         player_2 = create_player(2);
 
@@ -276,7 +395,7 @@ document.querySelector('.space-bottom').addEventListener("click", function() {
         console.log(true);
         newCharacters();
     }
-})
+});
 
 
 

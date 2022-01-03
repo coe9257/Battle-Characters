@@ -83,11 +83,21 @@ header {
 .player1 {
     grid-area: player1;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .player2 {
     grid-area: player2;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.pStatTags {
+    margin-top: 1rem;
 }
 
 .middle-space {
